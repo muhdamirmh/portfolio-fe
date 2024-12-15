@@ -1,21 +1,21 @@
 <template>
-  <nav class="w-full flex flex-col fixed">
+  <nav class="w-full flex flex-col fixed z-50">
     <div
-      class="rounded-b-3xl flex flex-col gap-y-1.5 py-5 px-6 items-start transition ease-linear duration-500 bg-[var(--color-1)] bg-gradient-to-tr from-[var(--color-1)] from-33% via-66% to-100% via-[var(--color-5)] to-[var(--color-4)] "
+      class="rounded-b-3xl flex flex-col gap-y-1.5 py-5 px-6 items-start transition ease-linear duration-500 bg-[var(--color-1-1)] bg-gradient-to-tr from-[var(--color-1-1)] from-33% via-66% to-100% via-[var(--color-1-5)] to-[var(--color-1-4)]"
       :style="{ transform: isExpanded ? 'translateY(0)' : 'translateY(-100%)' }"
     >
       <div
         v-for="link in links"
         :key="link.to"
-        class="w-full rounded-full border-2 border-[var(--color-2)] bg-transparent py-2 text-center text-[var(--color-2)] text-2xl tracking-widest hover:bg-gradient-to-tr from-gray-700 to-gray-500 transition-colors ease-linear duration-1000"
+        class="w-full rounded-full border-2 border-[var(--color-1-2)] bg-transparent py-2 text-center text-[var(--color-1-2)] text-2xl tracking-[.2em] hover:bg-gradient-to-tr from-gray-700 to-gray-500 transition-colors ease-linear duration-1000"
       >
-        <router-link :to="link.to">{{ link.text }}</router-link>
+        <button @click="scrollToSection(link.id)">{{ link.text }}</button>
       </div>
     </div>
 
     <button
       @click="toggleNav"
-      class="w-auto rounded-full bg-[var(--color-1)] m-2 self-end transition ease-linear duration-500"
+      class="w-auto rounded-full bg-[var(--color-1-1)] m-2 self-end transition ease-linear duration-500"
       :style="{ transform: isExpanded ? 'translateY(0)' : 'translateY(-675%)' }"
     >
       <template v-if="isExpanded">
@@ -29,26 +29,30 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 const isExpanded = ref(false)
 
 const links = [
-  { to: '/', text: 'HOME' },
-  { to: '/about', text: 'ABOUT' },
-  { to: '/projects', text: 'PROJECTS' },
-  { to: '/contact', text: 'CONTACT' },
+  { to: '/', text: 'HOME', id: 'home' },
+  { to: '/#projects', text: 'PROJECTS', id: 'projects' },
+  { to: '/#about', text: 'ABOUT', id: 'about' },
+  { to: '/#contact', text: 'CONTACT', id: 'contact' },
 ]
-
-const color = 'red'
 
 const toggleNav = () => {
   isExpanded.value = !isExpanded.value
 }
-</script>
 
-<style scoped>
-.wide-font {
-  font-stretch: extra-expanded;
+const scrollToSection = (sectionId) => {
+  const section = document.getElementById(sectionId)
+  if (section) {
+    section.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    })
+  } else {
+    console.error(`Section with ID "${sectionId}" not found.`)
+  }
 }
-</style>
+</script>
