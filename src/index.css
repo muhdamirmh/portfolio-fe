@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-1: #034670;
+  --color-2: #c3d1e5;
+  --color-3: #98b8d8;
+  --color-4: #6490bc;
+  --color-5: #296595;
+}
+
+@font-face {
+  font-family: 'CreatoDisplay';
+  src: url('./assets/fonts/CreatoDisplay-ExtraBold.otf') format('opentype');
+}
+html {
+  font-family: 'CreatoDisplay', sans-serif;
+}

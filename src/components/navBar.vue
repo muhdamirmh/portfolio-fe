@@ -1,13 +1,13 @@
 <template>
-  <nav class="w-full flex flex-col">
+  <nav class="w-full flex flex-col fixed">
     <div
-      class="rounded-b-3xl flex flex-col gap-y-1.5 py-6 px-6 items-start bg-gray-900 transition ease-linear duration-500"
+      class="rounded-b-3xl flex flex-col gap-y-1.5 py-5 px-6 items-start transition ease-linear duration-500 bg-[var(--color-1)] bg-gradient-to-tr from-[var(--color-1)] from-33% via-66% to-100% via-[var(--color-5)] to-[var(--color-4)] "
       :style="{ transform: isExpanded ? 'translateY(0)' : 'translateY(-100%)' }"
     >
       <div
         v-for="link in links"
         :key="link.to"
-        class="w-full rounded-full border-slate-500 border-2 bg-transparent text-white py-2 font-bold text-center hover:bg-gradient-to-tr from-gray-700 to-gray-500 transition-colors ease-linear duration-1000"
+        class="w-full rounded-full border-2 border-[var(--color-2)] bg-transparent py-2 text-center text-[var(--color-2)] text-2xl tracking-widest hover:bg-gradient-to-tr from-gray-700 to-gray-500 transition-colors ease-linear duration-1000"
       >
         <router-link :to="link.to">{{ link.text }}</router-link>
       </div>
@@ -15,29 +15,40 @@
 
     <button
       @click="toggleNav"
-      class="w-auto rounded-full bg-gray-700 m-2 self-end transition ease-linear duration-500"
-      :style="{ transform: isExpanded ? 'translateY(0)' : 'translateY(-500%)' }"
+      class="w-auto rounded-full bg-[var(--color-1)] m-2 self-end transition ease-linear duration-500"
+      :style="{ transform: isExpanded ? 'translateY(0)' : 'translateY(-675%)' }"
     >
-      <img class="w-12" src="../assets/dashboard.svg" alt="Toggle Navigation" />
+      <template v-if="isExpanded">
+        <img src="../assets/close.svg" alt="Toggle Navigation" class="w-10" />
+      </template>
+      <template v-else>
+        <img src="../assets/dashboard.svg" alt="Toggle Navigation" class="w-10" />
+      </template>
     </button>
   </nav>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const isExpanded = ref(false)
 
 const links = [
-  { to: '/', text: 'Home' },
-  { to: '/about', text: 'About' },
-  { to: '/projects', text: 'Projects' },
-  { to: '/contact', text: 'Contact' },
+  { to: '/', text: 'HOME' },
+  { to: '/about', text: 'ABOUT' },
+  { to: '/projects', text: 'PROJECTS' },
+  { to: '/contact', text: 'CONTACT' },
 ]
+
+const color = 'red'
 
 const toggleNav = () => {
   isExpanded.value = !isExpanded.value
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.wide-font {
+  font-stretch: extra-expanded;
+}
+</style>
