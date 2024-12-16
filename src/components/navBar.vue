@@ -19,10 +19,10 @@
       :style="{ transform: isExpanded ? 'translateY(0)' : 'translateY(-675%)' }"
     >
       <template v-if="isExpanded">
-        <img src="../assets/close.svg" alt="Toggle Navigation" class="w-10" />
+        <img src="/close.svg" alt="Toggle Navigation" class="w-10" />
       </template>
       <template v-else>
-        <img src="../assets/dashboard.svg" alt="Toggle Navigation" class="w-10" />
+        <img src="/dashboard.svg" alt="Toggle Navigation" class="w-10" />
       </template>
     </button>
   </nav>
@@ -34,10 +34,10 @@ import { ref } from 'vue'
 const isExpanded = ref(false)
 
 const links = [
-  { to: '/', text: 'HOME', id: 'home' },
-  { to: '/#projects', text: 'PROJECTS', id: 'projects' },
-  { to: '/#about', text: 'ABOUT', id: 'about' },
-  { to: '/#contact', text: 'CONTACT', id: 'contact' },
+  { to: '/', text: 'home', id: 'home' },
+  { to: '/#projects', text: 'projects', id: 'projects' },
+  { to: '/#about', text: 'about', id: 'about' },
+  { to: '/#contact', text: 'contact', id: 'contact' },
 ]
 
 const toggleNav = () => {
