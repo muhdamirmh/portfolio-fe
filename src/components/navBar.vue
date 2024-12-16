@@ -4,6 +4,7 @@
       class="rounded-b-3xl flex flex-col gap-y-1.5 py-5 px-6 items-start transition ease-linear duration-500 bg-[var(--color-1-1)] bg-gradient-to-tr from-[var(--color-1-1)] from-33% via-66% to-100% via-[var(--color-1-5)] to-[var(--color-1-4)]"
       :style="{ transform: isExpanded ? 'translateY(0)' : 'translateY(-100%)' }"
     >
+      <p class="rotating-text">karma.dev</p>
       <div
         v-for="link in links"
         :key="link.to"
@@ -16,7 +17,7 @@
     <button
       @click="toggleNav"
       class="w-auto rounded-full bg-[var(--color-1-1)] m-2 self-end transition ease-linear duration-500"
-      :style="{ transform: isExpanded ? 'translateY(0)' : 'translateY(-675%)' }"
+      :style="{ transform: isExpanded ? 'translateY(0)' : 'translateY(-800%)' }"
     >
       <template v-if="isExpanded">
         <img src="/close.svg" alt="Toggle Navigation" class="w-10" />
@@ -56,3 +57,25 @@ const scrollToSection = (sectionId) => {
   }
 }
 </script>
+
+<style scoped>
+.rotating-text {
+  animation: rotate3d 10s infinite linear;
+  text-align: center;
+  flex:auto;
+  flex-direction: row;
+  align-self: center;
+  color: var(--color-1-2);
+  font-size: xx-large;
+}
+
+@keyframes rotate3d {
+  0% {
+    transform: perspective(500px) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(500px) rotateY(360deg);
+  }
+}
+
+</style>

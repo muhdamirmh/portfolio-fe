@@ -19,16 +19,25 @@
       </div>
     </section>
 
-    <section class="section" id="projects">
-      <h2 class="text-3xl font-bold mb-4">My Projects</h2>
-      <div class="project-card">
-        <h3>Project 1: Website Design</h3>
-        <p>A modern website design for a tech startup.</p>
-        <a href="#" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >View Project</a
+    <section
+      class="section project-section overflow-x-auto whitespace-nowrap"
+      ref="projectsSection"
+      id="projects"
+    >
+      <div class="flex gap-20 text-wrap" id="projectContent">
+        <div
+          v-for="(project, index) in projectsContent"
+          :key="index"
+          class="project-card flex flex-col gap-y-3 scroller__inner"
         >
+          <p class="text-2xl">{{ project.title }}</p>
+          <p class="text-md">{{ project.desc }}</p>
+          <img class="p-2" :src="project.imgsrc" />
+          <a :href="project.href" class="flex flex-col border rounded-xl p-3 place-self-center"
+            >View Project</a
+          >
+        </div>
       </div>
-      <div class="project-card"></div>
     </section>
 
     <section class="section flex flex-col gap-y-3" id="about">
@@ -45,7 +54,7 @@
 
       <div class="flex flex-col gap-y-3">
         <h2>My Tech Stack:</h2>
-        <div class="flex flex-wrap gap-x-2">
+        <div class="flex flex-wrap gap-2">
           <img src="/html.svg" class="rounded-xl p-2 bg-slate-200 w-12" alt="HTML5" />
           <img src="/css.svg" class="rounded-xl p-2 bg-slate-200 w-12" alt="CSS3" />
           <div class="rounded-xl p-2 bg-slate-200 w-12">
@@ -83,26 +92,51 @@
         <label for="message">Message:</label>
         <textarea id="message" name="message" rows="4" required></textarea>
 
-        <button class="rounded-xl w-1/3 flex flex-col place-self-center place-items-center bg-[var(--color-1-1)] text-slate-50 p-2 mt-1" type="submit">Send Message</button>
+        <button
+          class="rounded-xl w-1/3 flex flex-col place-self-center place-items-center bg-[var(--color-1-1)] text-slate-50 p-2 py-3 mt-3"
+          type="submit"
+        >
+          Send Message
+        </button>
       </form>
     </section>
   </main>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import navBar from '@/components/navBar.vue'
 
 const showWelcomeScreen = ref(true)
 const typedText = ref('')
 const fullText = ['karma.dev                 ', 'Welcome.']
 const typingInterval = 100
+const scrollInterval = ref(null)
+const projectsSection = ref(null)
+const projectsContent = [
+  {
+    title: 'This Portfolio Website',
+    desc: 'Showcasing my journey in being a developer',
+    imgsrc: 'test',
+    href: '/',
+  },
+  { title: 'Project 2', desc: 'Test 1', imgsrc: 'test', href: 'test' },
+  { title: 'Project 3', desc: 'Test 1', imgsrc: 'test', href: 'test' },
+  { title: 'Project 4', desc: 'Test 1', imgsrc: 'test', href: 'test' },
+  { title: 'Project 5', desc: 'Test 1', imgsrc: 'test', href: 'test' },
+]
 
 onMounted(() => {
   typeText()
+
   setTimeout(() => {
     showWelcomeScreen.value = false
+    projectAutoScroll()
   }, 5000)
+})
+
+onUnmounted(() => {
+  clearInterval(scrollInterval)
 })
 
 function typeText() {
@@ -126,9 +160,60 @@ function typeText() {
         typedText.value += '<br><br>'
       }
     }
-
-    setTimeout(typeNextChar, typingInterval)
   }, typingInterval)
+}
+
+function projectAutoScroll() {
+  const scrollSpeed = 0.5
+
+  const scroll = async () => {
+    if (projectsSection.value) {
+      projectsSection.value.scrollLeft += scrollSpeed
+
+      // Check if we've reached the end and reset the scroll position
+      if (
+        projectsSection.value.scrollLeft >=
+        projectsSection.value.scrollWidth - projectsSection.value.clientWidth
+      ) {
+        const node = document.querySelectorAll('.project-card')
+
+        for (var i = 0, im = node.length; im > i; i++) {
+          document.getElementById('projectContent').appendChild(node[i].cloneNode(true))
+        }
+      }
+    }
+  }
+
+  scrollInterval.value = setInterval(scroll, 30)
+}
+
+function projectAutoScroll2() {
+  const scrollers = document.querySelectorAll('.project-card')
+
+  // If a user hasn't opted in for recuded motion, then we add the animation
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    addAnimation()
+  }
+
+  function addAnimation() {
+    scrollers.forEach((scroller) => {
+      // add data-animated="true" to every `.scroller` on the page
+      scroller.setAttribute('data-animated', true)
+
+      // Make an array from the elements within `.scroller-inner`
+      const scrollerInner = scroller.querySelector('.scroller__inner')
+      const scrollerContent = Array.from(scrollerInner.children)
+
+      // For each item in the array, clone it
+      // add aria-hidden to it
+      // add it into the `.scroller-inner`
+      scrollerContent.forEach((item) => {
+        const duplicatedItem = item.cloneNode(true)
+        duplicatedItem.setAttribute('aria-hidden', true)
+        scrollerInner.appendChild(duplicatedItem)
+      })
+    })
+  }
 }
 </script>
 
@@ -185,6 +270,16 @@ function typeText() {
   scrollbar-width: none; /* Firefox */
 }
 
+.project-section::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.project-section {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -207,5 +302,56 @@ function typeText() {
   padding: 2rem;
 
   background-color: rgba(230, 230, 230, 0.1);
+}
+
+.project-card {
+  flex: 0 0 auto; /* Prevent cards from resizing */
+  width: 300px; /* Adjust card width as needed */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.scroller__inner {
+  padding-block: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.scroller[data-animated='true'] {
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+}
+
+.scroller[data-animated='true'] .scroller__inner {
+  width: max-content;
+  flex-wrap: nowrap;
+  animation: scroll var(--_animation-duration, 40s) var(--_animation-direction, forwards) linear
+    infinite;
+}
+
+.scroller[data-direction='right'] {
+  --_animation-direction: reverse;
+}
+
+.scroller[data-direction='left'] {
+  --_animation-direction: forwards;
+}
+
+.scroller[data-speed='fast'] {
+  --_animation-duration: 20s;
+}
+
+.scroller[data-speed='slow'] {
+  --_animation-duration: 60s;
+}
+
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
 }
 </style>
