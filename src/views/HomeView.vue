@@ -71,15 +71,21 @@
 
       <h2>Or email me down below:</h2>
 
-      <form class="flex flex-col gap-y-2">
+      <form class="flex flex-col gap-y-2" @submit.prevent="sendEmail">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required />
+        <input type="text" id="name" name="name" v-model="formField.name" required />
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required />
+        <input type="email" id="email" name="email" v-model="formField.email" required />
 
         <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="4" required></textarea>
+        <textarea
+          id="message"
+          name="message"
+          rows="4"
+          v-model="formField.message"
+          required
+        ></textarea>
 
         <button
           class="rounded-xl w-1/3 flex flex-col place-self-center place-items-center bg-[var(--color-1-1)] text-slate-50 p-2 py-3 mt-3"
@@ -89,19 +95,51 @@
         </button>
       </form>
     </section>
+
+
+      <div
+
+        role="alert"
+        class="alert fixed top-0 left-0 right-0 w-auto mt-16 bg-[var(--color-2-2)] transition-opacity ease-in-out duration-500 border-2 text-black text-xl place-self-center"
+        :style="{ opacity: showAlert ? 100 : 0 }"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          class="h-8 w-8 shrink-0 stroke-current"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+        <span>{{ apiMessage }}</span>
+      </div>
+
   </main>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, onMounted } from 'vue'
 import navBar from '@/components/navBar.vue'
+import axios from 'axios'
 
+const formField = ref({
+  name: '',
+  email: '',
+  message: '',
+})
+
+const apiMessage = ref('')
 const showWelcomeScreen = ref(true)
+const showAlert = ref(false)
 const typedText = ref('')
 const fullText = ['karma.dev                 ', 'Welcome.']
 const typingInterval = 100
-const scrollInterval = ref(null)
-const projectsSection = ref(null)
+
 const projectsContent = [
   {
     title: 'This Portfolio Website',
@@ -128,13 +166,11 @@ onMounted(() => {
 
   setTimeout(() => {
     showWelcomeScreen.value = false
-    //projectAutoScroll()
+      
   }, 5000)
 })
 
-onUnmounted(() => {
-  clearInterval(scrollInterval)
-})
+
 
 function typeText() {
   let currentParagraphIndex = 0
@@ -160,116 +196,44 @@ function typeText() {
   }, typingInterval)
 }
 
-function projectAutoScroll() {
-  let scrollValue = 0.7
-  let scrollSpeed = scrollValue
 
-  const scroll = async () => {
-    if (projectsSection.value) {
-      console.log('yes')
-      projectsSection.value.scrollLeft += scrollSpeed
 
-      // Check if we've reached the end and reset the scroll position
-      if (
-        projectsSection.value.scrollLeft >=
-        projectsSection.value.scrollWidth - projectsSection.value.clientWidth
-      ) {
-        scrollSpeed = -scrollSpeed
-      } else if (projectsSection.value.scrollLeft == 0 && scrollSpeed == -scrollValue) {
-        scrollSpeed = -scrollSpeed
-      }
-    }
+
+function sendEmail() {
+  let data = JSON.stringify({
+    sender_email: formField.value.email,
+    sender_name: formField.value.name,
+    sender_message: formField.value.message,
+  })
+
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'http://192.168.1.176:5000/send-email',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: data,
   }
 
-  scrollInterval.value = setInterval(scroll, 30)
-}
+  axios
+    .request(config)
+    .then((response) => {
+      apiMessage.value = response.data.status
 
-function projectAutoScroll2() {
-  const scrollSpeed = 0.5
-
-  const scroll = async () => {
-    if (projectsSection.value) {
-      projectsSection.value.scrollLeft += scrollSpeed
-
-      // Check if we've reached the end and reset the scroll position
-      if (
-        projectsSection.value.scrollLeft >=
-        projectsSection.value.scrollWidth - projectsSection.value.clientWidth
-      ) {
-        const scrollers = document.querySelectorAll('.project-card2')
-        console.log(scrollers)
-
-        // If a user hasn't opted in for recuded motion, then we add the animation
-        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          addAnimation()
-        }
-
-        function addAnimation() {
-          scrollers.forEach((scroller) => {
-            // add data-animated="true" to every `.scroller` on the page
-            scroller.setAttribute('data-animated', true)
-            console.log(scroller)
-
-            // Make an array from the elements within `.scroller-inner`
-            const scrollerInner = scroller.querySelectorAll('.scroller__inner')
-            console.log(scrollerInner)
-
-            console.log('/////////////////////')
-
-            scrollerInner.forEach((scrollinner) => {
-              const duplicatedItem = scrollinner.cloneNode(true)
-              duplicatedItem.setAttribute('aria-hidden', true)
-              scroller.appendChild(duplicatedItem)
-              scrollinner.setAttribute('aria-hidden', true)
-            })
-
-            // For each item in the array, clone it
-            // add aria-hidden to it
-            // add it into the `.scroller-inner`
-
-            /* scrollerContent.forEach((item) => {
-              const duplicatedItem = item.cloneNode(true)
-              duplicatedItem.setAttribute('aria-hidden', true)
-              scrollerInner.appendChild(duplicatedItem)
-            }) */
-          })
-        }
-      }
-    }
-  }
-
-  scrollInterval.value = setInterval(scroll, 30)
-}
-
-function projectAutoScroll3() {
-  const container = document.getElementById('projectContent')
-  const scrollSpeed = 0.5 // Speed of scrolling
-  let translateX = 0 // Tracks the current position
-
-  function scrollProducts() {
-    projectsSection.value.scrollLeft += scrollSpeed
-
-    // Reset translateX silently when it exceeds the width of one product
-    const firstProduct = container.firstElementChild
-
-    const productWidth = firstProduct.offsetWidth + 80 // Width + margin-right
-
-    if (
-      projectsSection.value.scrollLeft >=
-      projectsSection.value.scrollWidth - projectsSection.value.clientWidth
-    ) {
-      translateX += productWidth
-
-      container.appendChild(firstProduct) // Move first product to the end
-    }
-
-    // Apply smooth scrolling using transform
-    container.style.transform = `translateX(${translateX}px)`
-
-    requestAnimationFrame(scrollProducts)
-  }
-
-  scrollProducts()
+      showAlert.value = true
+      setTimeout(() => {
+        showAlert.value = false
+      }, 5000)
+    })
+    .catch((error) => {
+      console.log(error)
+      apiMessage.value = error
+      showAlert.value = true
+      setTimeout(() => {
+        showAlert.value = false
+      }, 5000)
+    })
 }
 </script>
 
@@ -359,50 +323,9 @@ function projectAutoScroll3() {
   background-color: rgba(230, 230, 230, 0.1);
 }
 
-.project-card {
-  flex: 0 0 auto; /* Prevent cards from resizing */
-  width: 50vw; /* Adjust card width as needed */
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
 
-.scroller__inner {
-  padding-block: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
 
-.scroller[data-animated='true'] {
-  overflow: hidden;
-  -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
-  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
-}
 
-.scroller[data-animated='true'] .scroller__inner {
-  width: max-content;
-  flex-wrap: nowrap;
-  animation: scroll var(--_animation-duration, 40s) var(--_animation-direction, forwards) linear
-    infinite;
-}
-
-.scroller[data-direction='right'] {
-  --_animation-direction: reverse;
-}
-
-.scroller[data-direction='left'] {
-  --_animation-direction: forwards;
-}
-
-.scroller[data-speed='fast'] {
-  --_animation-duration: 20s;
-}
-
-.scroller[data-speed='slow'] {
-  --_animation-duration: 60s;
-}
 
 @keyframes scroll {
   to {
