@@ -62,7 +62,7 @@ const scrollToSection = (sectionId) => {
 .rotating-text {
   animation: rotate3d 10s infinite linear;
   text-align: center;
-  flex:auto;
+  flex: auto;
   flex-direction: row;
   align-self: center;
   color: var(--color-1-2);
@@ -77,5 +77,4 @@ const scrollToSection = (sectionId) => {
     transform: perspective(500px) rotateY(360deg);
   }
 }
-
 </style>

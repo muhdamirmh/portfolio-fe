@@ -22,6 +22,8 @@
   --color-2-4: #476aae;
 
   --color-2-5: #3b4d9a;
+
+  color: black;
 }
 
 @font-face {
@@ -36,4 +38,9 @@
 
 html {
   font-family: 'Mosvita', sans-serif;
+  
+}
+
+input, textarea {
+  background-color: white;
 }

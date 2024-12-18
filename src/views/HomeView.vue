@@ -9,48 +9,37 @@
 
   <main class="fluid-background">
     <section class="section" id="home">
-      <div class="hero-content">
+      <div class="flex flex-col align-content-center">
         <p class="text-5xl font-bold">karma.dev</p>
-        <p class="text-3xl font-bold">Welcome</p>
-        <p class="text-lg">A showcase of my creative work.</p>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Get in Touch
-        </button>
+
+        <p class="text-lg">A showcase of my work.</p>
       </div>
     </section>
 
-    <section
-      class="section project-section overflow-x-auto whitespace-nowrap"
-      ref="projectsSection"
-      id="projects"
-    >
-      <div class="flex gap-20 text-wrap" id="projectContent">
+    <div class="section" id="projects">
+      <p class="text-3xl pb-8">Projects</p>
+      <div class="carousel w-full">
         <div
-          v-for="(project, index) in projectsContent"
-          :key="index"
-          class="project-card flex flex-col gap-y-3 scroller__inner"
+          v-for="project in projectsContent"
+          class="carousel-item flex flex-col border rounded-box w-40 mx-2 p-3 gap-y-2"
         >
           <p class="text-2xl">{{ project.title }}</p>
           <p class="text-md">{{ project.desc }}</p>
-          <img class="p-2" :src="project.imgsrc" />
-          <a :href="project.href" class="flex flex-col border rounded-xl p-3 place-self-center"
+          <img class="p-2 w-52 place-self-center" :src="project.imgsrc" />
+          <a :href="project.href" class="border rounded-xl p-2 m-3 place-self-center text-center"
             >View Project</a
           >
         </div>
       </div>
-    </section>
+    </div>
 
     <section class="section flex flex-col gap-y-3" id="about">
-      <h2 class="text-3xl font-bold">About Me</h2>
-      <p>
-        I'm a passionate and dedicated web developer always eager to learn and grow. With a focus on
-        creating user-friendly and visually appealing websites, I'm constantly exploring the latest
-        technologies and design trends.
-      </p>
-      <p>
-        I'm particularly interested in full-stack development. I'm always open to new challenges and
-        opportunities.
-      </p>
+      <p class="text-3xl">About</p>
+      <p>I'm a passionate and dedicated web developer always eager to learn and grow.</p>
+      <p>With a focus on creating user-friendly and visually appealing websites,</p>
+      <p>I'm constantly exploring the latest technologies and design trends.</p>
+      <p>I'm particularly interested in full-stack development.</p>
+      <p>I'm always open to new challenges and opportunities.</p>
 
       <div class="flex flex-col gap-y-3">
         <h2>My Tech Stack:</h2>
@@ -69,7 +58,7 @@
     </section>
 
     <section class="section flex flex-col gap-y-4" id="contact">
-      <h2>Contact me here:</h2>
+      <p class="text-3xl">Contact</p>
 
       <div class="flex flex-row gap-x-2">
         <a href="https://github.com/muhdamirmh" target="_blank">
@@ -117,13 +106,21 @@ const projectsContent = [
   {
     title: 'This Portfolio Website',
     desc: 'Showcasing my journey in being a developer',
-    imgsrc: 'test',
+    imgsrc: '/vue.svg',
     href: '/',
   },
-  { title: 'Project 2', desc: 'Test 1', imgsrc: 'test', href: 'test' },
-  { title: 'Project 3', desc: 'Test 1', imgsrc: 'test', href: 'test' },
-  { title: 'Project 4', desc: 'Test 1', imgsrc: 'test', href: 'test' },
-  { title: 'Project 5', desc: 'Test 1', imgsrc: 'test', href: 'test' },
+  {
+    title: 'This Portfolio Website',
+    desc: 'Showcasing my journey in being a developer',
+    imgsrc: '/vue.svg',
+    href: '/',
+  },
+  {
+    title: 'This Portfolio Website',
+    desc: 'Showcasing my journey in being a developer',
+    imgsrc: '/vue.svg',
+    href: '/',
+  },
 ]
 
 onMounted(() => {
@@ -131,7 +128,7 @@ onMounted(() => {
 
   setTimeout(() => {
     showWelcomeScreen.value = false
-    projectAutoScroll()
+    //projectAutoScroll()
   }, 5000)
 })
 
@@ -164,6 +161,30 @@ function typeText() {
 }
 
 function projectAutoScroll() {
+  let scrollValue = 0.7
+  let scrollSpeed = scrollValue
+
+  const scroll = async () => {
+    if (projectsSection.value) {
+      console.log('yes')
+      projectsSection.value.scrollLeft += scrollSpeed
+
+      // Check if we've reached the end and reset the scroll position
+      if (
+        projectsSection.value.scrollLeft >=
+        projectsSection.value.scrollWidth - projectsSection.value.clientWidth
+      ) {
+        scrollSpeed = -scrollSpeed
+      } else if (projectsSection.value.scrollLeft == 0 && scrollSpeed == -scrollValue) {
+        scrollSpeed = -scrollSpeed
+      }
+    }
+  }
+
+  scrollInterval.value = setInterval(scroll, 30)
+}
+
+function projectAutoScroll2() {
   const scrollSpeed = 0.5
 
   const scroll = async () => {
@@ -175,10 +196,43 @@ function projectAutoScroll() {
         projectsSection.value.scrollLeft >=
         projectsSection.value.scrollWidth - projectsSection.value.clientWidth
       ) {
-        const node = document.querySelectorAll('.project-card')
+        const scrollers = document.querySelectorAll('.project-card2')
+        console.log(scrollers)
 
-        for (var i = 0, im = node.length; im > i; i++) {
-          document.getElementById('projectContent').appendChild(node[i].cloneNode(true))
+        // If a user hasn't opted in for recuded motion, then we add the animation
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          addAnimation()
+        }
+
+        function addAnimation() {
+          scrollers.forEach((scroller) => {
+            // add data-animated="true" to every `.scroller` on the page
+            scroller.setAttribute('data-animated', true)
+            console.log(scroller)
+
+            // Make an array from the elements within `.scroller-inner`
+            const scrollerInner = scroller.querySelectorAll('.scroller__inner')
+            console.log(scrollerInner)
+
+            console.log('/////////////////////')
+
+            scrollerInner.forEach((scrollinner) => {
+              const duplicatedItem = scrollinner.cloneNode(true)
+              duplicatedItem.setAttribute('aria-hidden', true)
+              scroller.appendChild(duplicatedItem)
+              scrollinner.setAttribute('aria-hidden', true)
+            })
+
+            // For each item in the array, clone it
+            // add aria-hidden to it
+            // add it into the `.scroller-inner`
+
+            /* scrollerContent.forEach((item) => {
+              const duplicatedItem = item.cloneNode(true)
+              duplicatedItem.setAttribute('aria-hidden', true)
+              scrollerInner.appendChild(duplicatedItem)
+            }) */
+          })
         }
       }
     }
@@ -187,33 +241,35 @@ function projectAutoScroll() {
   scrollInterval.value = setInterval(scroll, 30)
 }
 
-function projectAutoScroll2() {
-  const scrollers = document.querySelectorAll('.project-card')
+function projectAutoScroll3() {
+  const container = document.getElementById('projectContent')
+  const scrollSpeed = 0.5 // Speed of scrolling
+  let translateX = 0 // Tracks the current position
 
-  // If a user hasn't opted in for recuded motion, then we add the animation
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    addAnimation()
+  function scrollProducts() {
+    projectsSection.value.scrollLeft += scrollSpeed
+
+    // Reset translateX silently when it exceeds the width of one product
+    const firstProduct = container.firstElementChild
+
+    const productWidth = firstProduct.offsetWidth + 80 // Width + margin-right
+
+    if (
+      projectsSection.value.scrollLeft >=
+      projectsSection.value.scrollWidth - projectsSection.value.clientWidth
+    ) {
+      translateX += productWidth
+
+      container.appendChild(firstProduct) // Move first product to the end
+    }
+
+    // Apply smooth scrolling using transform
+    container.style.transform = `translateX(${translateX}px)`
+
+    requestAnimationFrame(scrollProducts)
   }
 
-  function addAnimation() {
-    scrollers.forEach((scroller) => {
-      // add data-animated="true" to every `.scroller` on the page
-      scroller.setAttribute('data-animated', true)
-
-      // Make an array from the elements within `.scroller-inner`
-      const scrollerInner = scroller.querySelector('.scroller__inner')
-      const scrollerContent = Array.from(scrollerInner.children)
-
-      // For each item in the array, clone it
-      // add aria-hidden to it
-      // add it into the `.scroller-inner`
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true)
-        duplicatedItem.setAttribute('aria-hidden', true)
-        scrollerInner.appendChild(duplicatedItem)
-      })
-    })
-  }
+  scrollProducts()
 }
 </script>
 
@@ -274,10 +330,9 @@ function projectAutoScroll2() {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .project-section {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @keyframes gradient {
@@ -306,7 +361,7 @@ function projectAutoScroll2() {
 
 .project-card {
   flex: 0 0 auto; /* Prevent cards from resizing */
-  width: 300px; /* Adjust card width as needed */
+  width: 50vw; /* Adjust card width as needed */
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 20px;
