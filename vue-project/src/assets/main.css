@@ -1,0 +1,95 @@
+@import 'tailwindcss';
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark;
+}
+
+@font-face {
+  font-family: 'Regular';
+  src: url('/fonts/trap/Trap-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Black';
+  src: url('/fonts/trap/Trap-Black.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Bold';
+  src: url('/fonts/trap/Trap-Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'ExtraBold';
+  src: url('/fonts/trap/Trap-ExtraBold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Light';
+  src: url('/fonts/trap/Trap-Light.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Medium';
+  src: url('/fonts/trap/Trap-Medium.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'SemiBold';
+  src: url('/fonts/trap/Trap-SemiBold.otf') format('opentype');
+}
+
+:root {
+  --header-height: calc(100vh / 8);
+}
+
+html {
+  font-family: 'SemiBold', sans-serif;
+  font-size: 1.25em;
+}
+
+header {
+  height: var(--header-height);
+}
+
+footer {
+  height: calc(var(--header-height) * 1);
+}
+
+header {
+  position: fixed;
+}
+
+main {
+  height: 100vh;
+  overflow: scroll;
+}
+
+.font-regular {
+  font-family: 'Regular', sans-serif;
+}
+
+.font-black {
+  font-family: 'Black', sans-serif;
+}
+
+.font-bold {
+  font-family: 'Bold', sans-serif;
+}
+
+.font-extrabold {
+  font-family: 'ExtraBold', sans-serif;
+}
+
+.font-light {
+  font-family: 'Light', sans-serif;
+}
+
+.font-medium {
+  font-family: 'Medium', sans-serif;
+}
+
+.font-semibold {
+  font-family: 'SemiBold', sans-serif;
+}
