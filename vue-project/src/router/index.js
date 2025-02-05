@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import pfHome from '../views/pfHome.vue'
 
-const defaultLocale = 'en'
+const defaultLocale = localStorage.locale || 'en'
 
 const routes = [
   {
