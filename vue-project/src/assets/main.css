@@ -5,6 +5,18 @@
     dark;
 }
 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
+}
+
 @font-face {
   font-family: 'Regular';
   src: url('/fonts/trap/Trap-Regular.otf') format('opentype');
@@ -41,20 +53,26 @@
 }
 
 :root {
-  --header-height: calc(100vh / 8);
+  --header-height: calc(100vh / 5);
+  --footer-height: calc(var(--header-height) * 0.2);
+  --color-background: oklch(0.379 0.146 265.522);
+  --color-text: oklch(0.951 0.026 236.824);
 }
 
 html {
   font-family: 'SemiBold', sans-serif;
   font-size: 1.25em;
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 header {
   height: var(--header-height);
+  background-color: var(--color-background);
 }
 
 footer {
-  height: calc(var(--header-height) * 1);
+  height: var(--footer-height);
 }
 
 header {
@@ -62,7 +80,8 @@ header {
 }
 
 main {
-  height: 100vh;
+  height: calc(100vh - var(--footer-height));
+  padding-top: var(--header-height);
   overflow: scroll;
 }
 

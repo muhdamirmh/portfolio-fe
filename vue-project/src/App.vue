@@ -1,18 +1,22 @@
 <template >
-  <pfSidebar v-if="isMobile" />
-  <pfHeader v-else />
-
-  <RouterView :class="{ 'pt-(--header-height)': !isMobile }" />
+  
+  <pfHeader />
+  <main>
+    <RouterView />
+  </main>
+  
   <pfFooter />
 </template>
 
 <script setup>
 import { RouterView } from 'vue-router'
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import pfHeader from './components/pfHeader.vue'
 import pfFooter from './components/pfFooter.vue'
-import pfSidebar from './components/pfSidebar.vue'
+
+const { locale } = useI18n({ useScope: 'global' })
 
 const isMobile = ref(false)
 
@@ -20,8 +24,15 @@ const checkIfMobile = () => {
   isMobile.value = window.innerWidth <= 768 // Adjust breakpoint as needed
 }
 
+const checkLocale = () => {
+  if (localStorage.locale) {
+    locale.value = localStorage.locale
+  }
+}
+
 onMounted(() => {
-  checkIfMobile() // Check on initial load
+  checkIfMobile()
+  checkLocale()
   window.addEventListener('resize', checkIfMobile) // Check on window resize
 })
 
