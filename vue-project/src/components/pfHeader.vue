@@ -38,20 +38,23 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { updateLocale } from '../main.js'
+import { updateLocale, refreshPageAfterLocale } from '../main.js'
 import { useI18n } from 'vue-i18n'
 
 const { locale } = useI18n({ useScope: 'global' })
 
 const menu = ref(false)
+const emit = defineEmits(['toggle-menu']);
 
 const toggleLocale = () => {
   const newLocale = locale.value === 'en' ? 'ms' : 'en'
   updateLocale(newLocale)
+  refreshPageAfterLocale()
 }
 
 const toggleMenu = () => {
   menu.value = !menu.value
+  emit('toggle-menu', menu.value);
 }
 
 const toggleLocaleText = computed(() => {
