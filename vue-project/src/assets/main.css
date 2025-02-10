@@ -79,7 +79,7 @@ header {
   position: fixed;
 }
 
-main {
+.main-content {
   height: calc(100vh - var(--footer-height));
   padding-top: var(--header-height);
   overflow: scroll;

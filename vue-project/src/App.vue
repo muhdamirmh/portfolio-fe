@@ -1,20 +1,21 @@
 <template>
-  <pfHeader @toggle-menu="handleMenuToggle" :disabled="isTransitioning" />
-  <main class="no-scrollbar">
-    <transition
-      name="slide-right"
-      mode="out-in"
-      @before-enter="changeTransition(true)"
-      @after-enter="changeTransition(false)"
-      @before-leave="changeTransition(true)"
-      @after-leave="changeTransition(false)"
-    >
-      <RouterView v-if="!menuOpen" />
-      <pfNav v-else />
-    </transition>
+  <main class="px-5 md:px-10 lg:px-20">
+    <pfHeader @toggle-menu="handleMenuToggle" :disabled="isTransitioning" :menuOpen="menuOpen" />
+    <div class="main-content no-scrollbar text-lg lg:text-xl xl:text-2xl font-extrabold">
+      <transition
+        name="slide-right"
+        mode="out-in"
+        @before-enter="changeTransition(true)"
+        @after-enter="changeTransition(false)"
+        @before-leave="changeTransition(true)"
+        @after-leave="changeTransition(false)"
+      >
+        <RouterView v-if="!menuOpen" />
+        <pfNav v-else @toggle-menu="handleMenuToggle" />
+      </transition>
+    </div>
+    <pfFooter />
   </main>
-
-  <pfFooter />
 </template>
 
 <script setup>
@@ -44,16 +45,6 @@ const handleMenuToggle = (newMenuState) => {
 
 const changeTransition = (bool) => {
   isTransitioning.value = bool
-}
-
-const onBeforeEnter = (str) => {
-  console.log(`before: ${str}`)
-  //isTransitioning.value = true
-}
-
-const onAfterLeave = () => {
-  console.log('after')
-  isTransitioning.value = false
 }
 
 const checkLocale = () => {
