@@ -1,11 +1,19 @@
-<template >
-  
-  <pfHeader @toggle-menu="handleMenuToggle" />
-  <main>
-    <RouterView v-if="!menuOpen" />
-    <pfNav v-else />
+<template>
+  <pfHeader @toggle-menu="handleMenuToggle" :disabled="isTransitioning" />
+  <main class="no-scrollbar">
+    <transition
+      name="slide-right"
+      mode="out-in"
+      @before-enter="changeTransition(true)"
+      @after-enter="changeTransition(false)"
+      @before-leave="changeTransition(true)"
+      @after-leave="changeTransition(false)"
+    >
+      <RouterView v-if="!menuOpen" />
+      <pfNav v-else />
+    </transition>
   </main>
-  
+
   <pfFooter />
 </template>
 
@@ -21,16 +29,32 @@ import pfNav from './components/pfNav.vue'
 const { locale } = useI18n({ useScope: 'global' })
 
 const isMobile = ref(false)
-const menuOpen = ref(false);
+const menuOpen = ref(false)
+const isTransitioning = ref(false)
 
 const checkIfMobile = () => {
   isMobile.value = window.innerWidth <= 768 // Adjust breakpoint as needed
 }
 
 const handleMenuToggle = (newMenuState) => {
-  menuOpen.value = newMenuState;
+  if (!isTransitioning.value) {
+    menuOpen.value = newMenuState
+  }
+}
 
-};
+const changeTransition = (bool) => {
+  isTransitioning.value = bool
+}
+
+const onBeforeEnter = (str) => {
+  console.log(`before: ${str}`)
+  //isTransitioning.value = true
+}
+
+const onAfterLeave = () => {
+  console.log('after')
+  isTransitioning.value = false
+}
 
 const checkLocale = () => {
   if (localStorage.locale) {
@@ -48,3 +72,44 @@ onUnmounted(() => {
   window.removeEventListener('resize', checkIfMobile) // Cleanup
 })
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all 1.5s ease-in-out;
+}
+
+.slide-right-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-right-enter-to {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.slide-right-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.slide-right-leave-from {
+  transform: translateX(0);
+  opacity: 1;
+}
+</style>

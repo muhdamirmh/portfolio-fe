@@ -19,7 +19,7 @@ const checkIfMobile = () => {
 }
 
 const theLetters = 'abcdefghijklmnopqrstuvwxyz#%&^+=-'
-const speed = 70
+const speed = 35
 const increment = 2
 
 const output = ref('')

@@ -1,6 +1,6 @@
 <template>
   <nav class="flex h-full justify-center items-center">
-    <ol class="text-6xl">
+    <ol class="text-5xl grid gap-y-5">
       <li><router-link to="/">home</router-link></li>
       <li><router-link to="/about">about</router-link></li>
       <li><router-link to="/projects">projects</router-link></li>

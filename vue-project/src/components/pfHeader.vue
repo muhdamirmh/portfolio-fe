@@ -22,7 +22,7 @@
         </li>
         <li class="flex"><p class="text-lg">|</p></li>
         <li class="flex">
-          <button class="cursor-pointer" @click="toggleMenu">
+          <button class="cursor-pointer" @click="toggleMenu" :disabled="disabled" >
             <img
               :src="menu ? '/close-menu.svg' : '/open-menu.svg'"
               alt="Menu"
@@ -45,6 +45,13 @@ const { locale } = useI18n({ useScope: 'global' })
 
 const menu = ref(false)
 const emit = defineEmits(['toggle-menu']);
+
+defineProps({
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+})
 
 const toggleLocale = () => {
   const newLocale = locale.value === 'en' ? 'ms' : 'en'
