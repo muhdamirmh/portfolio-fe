@@ -12,9 +12,11 @@ const i18n = createI18n({
   messages: {
     en: {
       hello: `print("hello world, i'm amir")`,
+      welcome: `print("welcome")`,
     },
     ms: {
       hello: `print("hai dunia, saya ialah amir")`,
+      welcome: `print("selamat datang")`,
     },
   },
 })
