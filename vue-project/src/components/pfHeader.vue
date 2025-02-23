@@ -2,7 +2,7 @@
   <header class="navbar bg-sky-100 w-8/9">
     <div class="navbar-start text-xl">
       <button class="cursor-pointer" @click="toggleMenu(false)" :disabled="props.disabled">
-        kx.rmx
+        muhdamirmh
       </button>
     </div>
     <div class="navbar-end">
