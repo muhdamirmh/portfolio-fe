@@ -1,5 +1,5 @@
 <template>
-  <header class="navbar bg-sky-100 w-5/6">
+  <header class="navbar bg-sky-100 w-8/9">
     <div class="navbar-start text-xl">
       <button class="cursor-pointer" @click="toggleMenu(false)" :disabled="props.disabled">
         kx.rmx

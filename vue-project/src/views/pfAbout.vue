@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-7 justify-center h-full">
-    <p class="text-6xl">about</p>
+    <p class="text-4xl lg:text-6xl">about</p>
     <hr class="border-1"></hr>
     <p>
       Hello there, my name is Muhammad Amir Mohd Hastapuzi. <br />

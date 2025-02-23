@@ -16,9 +16,27 @@
         >
       </li>
       <li><router-link to="/projects">projects</router-link></li>
-      <li><router-link to="/experience">experience</router-link></li>
-      <li><router-link to="/skills">skills</router-link></li>
-      <li><router-link to="/contact">contact</router-link></li>
+      <li>
+        <router-link
+          :to="{ name: 'Experience', params: { locale: $route.params.locale } }"
+          @click="toggleMenu"
+          >experience</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          :to="{ name: 'Skills', params: { locale: $route.params.locale } }"
+          @click="toggleMenu"
+          >skills</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          :to="{ name: 'Contact', params: { locale: $route.params.locale } }"
+          @click="toggleMenu"
+          >contact</router-link
+        >
+      </li>
     </ol>
   </nav>
 </template>

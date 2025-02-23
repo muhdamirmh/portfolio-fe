@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import pfHome from '../views/pfHome.vue'
 import pfAbout from '../views/pfAbout.vue'
+import pfContact from '@/views/pfContact.vue'
+import pfSkills from '@/views/pfSkills.vue'
+import pfExperience from '@/views/pfExperience.vue'
+
 
 const defaultLocale = localStorage.locale || 'en'
 
@@ -23,11 +27,26 @@ const routes = [
         name: 'About',
         component: pfAbout,
       },
+      {
+        path: 'contact',
+        name: 'Contact',
+        component: pfContact,
+      },
+      {
+        path: 'skills',
+        name: 'Skills',
+        component: pfSkills,
+      },
+      {
+        path: 'experience',
+        name: 'Experience',
+        component: pfExperience,
+      },
     ],
   },
   {
     path: '/', // Redirect to default locale
-    redirect: `/${defaultLocale}`, 
+    redirect: `/${defaultLocale}`,
   },
   {
     path: '/home', // Redirect to default locale with 'home'
