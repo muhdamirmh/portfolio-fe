@@ -2,7 +2,8 @@
   <div class="flex flex-col gap-7 justify-center h-full">
     <p class="text-4xl lg:text-6xl">about</p>
     <hr class="border-1"></hr>
-    <p>
+    <div class="overflow-auto no-scrollbar">
+      <p>
       Hello there, my name is Muhammad Amir Mohd Hastapuzi. <br />
       I'm a versatile developer from Malaysia with a focus on web development. I enjoy tackling
       diverse challenges and I am always eager and curious to learn new technologies and approaches
@@ -23,6 +24,8 @@
         </div>
 
     </a> 
+    </div>
+
   </div>
 </template>
 

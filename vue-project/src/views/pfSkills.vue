@@ -2,17 +2,20 @@
   <div class="flex flex-col gap-7 justify-center h-full">
     <p class="text-4xl lg:text-6xl">skills</p>
     <hr class="border-1"></hr>
-    <ul class="flex flex-row flex-wrap">
-      <li v-for="skill in skills" :key="skill.name" class="p-1 tooltip tooltip-right tooltip-info" :data-tip="skill.name">
-        <img
-          :title="skill.name"
-          :src="skill.icon"
-          :alt="skill.altText"
-          width="50"
-          loading="lazy"
-        /> 
-      </li>
-    </ul> 
+    <div class="overflow-auto no-scrollbar">
+      <ul class="flex flex-row flex-wrap">
+        <li v-for="skill in skills" :key="skill.name" class="p-1 tooltip tooltip-right tooltip-info" :data-tip="skill.name">
+          <img
+            :title="skill.name"
+            :src="skill.icon"
+            :alt="skill.altText"
+            width="50"
+            loading="lazy"
+          /> 
+        </li>
+      </ul> 
+    </div>
+
 
 
   </div>
