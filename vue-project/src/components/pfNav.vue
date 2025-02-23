@@ -15,7 +15,7 @@
           >about</router-link
         >
       </li>
-      <li><router-link to="/projects">projects</router-link></li>
+      <!-- <li><router-link to="/projects">projects</router-link></li> -->
       <li>
         <router-link
           :to="{ name: 'Experience', params: { locale: $route.params.locale } }"
