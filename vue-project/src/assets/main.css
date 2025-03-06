@@ -52,11 +52,15 @@
   src: url('/fonts/trap/Trap-SemiBold.otf') format('opentype');
 }
 
+
+
 :root {
   --header-height: calc(100vh / 5);
   --footer-height: calc(var(--header-height) * 0.2);
-  --color-background: oklch(0.379 0.146 265.522);
-  --color-text: oklch(0.951 0.026 236.824);
+  //--color-background: oklch(0.379 0.146 265.522);
+  //--color-text: oklch(0.951 0.026 236.824);
+  --color-background: #2772A0; 
+  --color-text: #CCDDEA; 
 }
 
 html {
@@ -73,6 +77,7 @@ header {
 
 footer {
   height: var(--footer-height);
+  background-color: var(--color-background);
 }
 
 header {

@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="footer footer-horizontal footer-center bg-blue-900/90 text-neutral-content items-center px-10"
+    class="footer footer-horizontal footer-center text-neutral-content items-center px-10"
   >
     <aside class="grid-flow-col items-center text-md">
       <p>muhdamirmh | {{ new Date().getFullYear() }}</p>
