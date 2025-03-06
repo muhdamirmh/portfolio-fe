@@ -1,4 +1,5 @@
 <template>
+  <Analytics />
   <main class="px-5 md:px-10 lg:px-20">
     <pfHeader @toggle-menu="handleMenuToggle" :disabled="isTransitioning" :menuOpen="menuOpen" />
     <div class="main-content no-scrollbar text-lg lg:text-xl xl:text-2xl font-extrabold">
@@ -22,6 +23,7 @@
 import { RouterView } from 'vue-router'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Analytics } from '@vercel/analytics/vue';
 
 import pfHeader from './components/pfHeader.vue'
 import pfFooter from './components/pfFooter.vue'
