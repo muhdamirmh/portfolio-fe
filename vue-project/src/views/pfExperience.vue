@@ -25,7 +25,7 @@
 
 const experiences = [
   {id: 0, title: 'Internship - Software Engineer', company: 'Secondlifeasia', date: 'March 2024 - June 2024', desc: 'Developed proficiency in programming, specializing in Vue.js and Python (with Flask), while contributing to web development projects. Supported senior developers with frontend and backend tasks.',},
-  {id: 1, title: 'Software Engineer', company: 'Secondlifeasia', date: 'June 2024 - Present', desc: 'Promoted to Full-Time Software Engineer following a successful internship. Currently responsible for full-stack web development, encompassing frontend, backend, database design and management, and API development. Contribute to development operations through GitHub administration, secure environment configuration, and access control management.',},
+  {id: 1, title: 'Software Engineer', company: 'Secondlifeasia', date: 'June 2024 - March 2025', desc: 'Promoted to Full-Time Software Engineer following a successful internship. Currently responsible for full-stack web development, encompassing frontend, backend, database design and management, and API development. Contribute to development operations through GitHub administration, secure environment configuration, and access control management.',},
 ]
 
 </script>
